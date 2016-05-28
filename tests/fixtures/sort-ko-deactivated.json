@@ -1,0 +1,36 @@
+{
+    "require": {
+        "aztech/layers": "0.1.*",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0",
+        "php": "^5.3"
+    },
+    "require-dev": {
+        "php": "^5.3",
+        "aztech/layers": "0.1.*",
+        "ext-aaa": "^1.0",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0"
+    },
+    "conflict": {
+        "zzz/xxx": "^1.0",
+        "aztech/layers": "0.1.*",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0"
+    },
+    "replace": {
+        "zzz/xxx": "^1.0",
+        "aztech/layers": "0.1.*",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0"
+    },
+    "provide": {
+        "zzz/xxx": "^1.0",
+        "aztech/layers": "0.1.*",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0"
+    },
+    "suggest": {
+        "zzz/xxx": "^1.0",
+        "aztech/layers": "0.1.*",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0"
+    },
+    "config": {
+        "sort-packages": false
+    }
+}

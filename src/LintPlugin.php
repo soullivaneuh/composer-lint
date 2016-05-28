@@ -5,6 +5,7 @@ namespace SLLH\ComposerLint;
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\IO\IOInterface;
+use Composer\Json\JsonFile;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
@@ -25,12 +26,18 @@ final class LintPlugin implements PluginInterface, EventSubscriberInterface
     private $io;
 
     /**
+     * @var Linter
+     */
+    private $linter;
+
+    /**
      * {@inheritdoc}
      */
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->composer = $composer;
         $this->io = $io;
+        $this->linter = new Linter();
     }
 
     /**
@@ -48,7 +55,7 @@ final class LintPlugin implements PluginInterface, EventSubscriberInterface
     /**
      * @param CommandEvent $event
      *
-     * @return int The command plugin execution value
+     * @return bool true if no violation, false otherwise.
      */
     public function command(CommandEvent $event)
     {
@@ -56,8 +63,15 @@ final class LintPlugin implements PluginInterface, EventSubscriberInterface
             return true;
         }
 
-        $this->io->writeError('This plugin is over development. Please do not use it for the moment.');
+        $json = new JsonFile($event->getInput()->getArgument('file'));
+        $manifest = $json->read();
 
-        return false;
+        $errors = $this->linter->validate($manifest);
+
+        foreach ($errors as $error) {
+            $this->io->writeError(sprintf('<error>%s</error>', $error));
+        }
+
+        return empty($errors);
     }
 }
