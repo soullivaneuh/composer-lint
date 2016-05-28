@@ -1,0 +1,42 @@
+{
+    "name": "sllh/composer-lint",
+    "description": "Extends the composer validate command with extra rules",
+    "keywords": ["composer", "plugin", "validate", "lint"],
+    "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sullivan SENECHAL",
+            "email": "soullivaneuh@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.3 || ^7.0",
+        "composer-plugin-api": "^1.0"
+    },
+    "require-dev": {
+        "composer/composer": "^1.0",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0",
+        "symfony/phpunit-bridge": "^2.7.4|^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SLLH\\ComposerLint\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SLLH\\ComposerLint\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "extra": {
+        "class": "SLLH\\ComposerLint\\LintPlugin",
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    }
+}
