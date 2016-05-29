@@ -11,19 +11,6 @@ use SLLH\ComposerLint\Linter;
 final class LinterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Linter
-     */
-    private $linter;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        $this->linter = new Linter();
-    }
-
-    /**
      * @dataProvider getLintData
      *
      * @param string $file
@@ -33,8 +20,11 @@ final class LinterTest extends \PHPUnit_Framework_TestCase
     {
         $json = new JsonFile($file);
         $manifest = $json->read();
+        $linter = new Linter(
+            isset($manifest['config']['sllh-composer-lint']) ? $manifest['config']['sllh-composer-lint'] : array()
+        );
 
-        $errors = $this->linter->validate($manifest);
+        $errors = $linter->validate($manifest);
         $this->assertCount($expectedErrorsCount, $errors);
     }
 
@@ -47,8 +37,12 @@ final class LinterTest extends \PHPUnit_Framework_TestCase
             array(__DIR__.'/fixtures/sort-ok.json'),
             array(__DIR__.'/fixtures/sort-ok-minimal.json'),
             array(__DIR__.'/fixtures/sort-ko.json', 6),
-            array(__DIR__.'/fixtures/sort-ko-deactivated.json'),
+            array(__DIR__.'/fixtures/sort-ko-disabled.json'),
             array(__DIR__.'/fixtures/sort-ko-no-config.json'),
+            array(__DIR__.'/fixtures/php-ok.json'),
+            array(__DIR__.'/fixtures/php-ko.json', 1),
+            array(__DIR__.'/fixtures/php-on-dev.json', 1),
+            array(__DIR__.'/fixtures/php-ko-disabled.json'),
         );
     }
 }
