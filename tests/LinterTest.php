@@ -45,6 +45,7 @@ final class LinterTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(__DIR__.'/fixtures/sort-ok.json'),
+            array(__DIR__.'/fixtures/sort-ok-minimal.json'),
             array(__DIR__.'/fixtures/sort-ko.json', 6),
             array(__DIR__.'/fixtures/sort-ko-deactivated.json'),
             array(__DIR__.'/fixtures/sort-ko-no-config.json'),
