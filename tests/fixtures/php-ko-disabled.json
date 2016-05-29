@@ -1,0 +1,13 @@
+{
+    "require": {
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0"
+    },
+    "require-dev": {
+        "foo/bar": "*"
+    },
+    "config": {
+        "sllh-composer-lint": {
+            "php": false
+        }
+    }
+}

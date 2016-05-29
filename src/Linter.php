@@ -8,6 +8,23 @@ namespace SLLH\ComposerLint;
 final class Linter
 {
     /**
+     * @var array
+     */
+    private $config;
+
+    /**
+     * @param array $config
+     */
+    public function __construct(array $config)
+    {
+        $defaultConfig = array(
+            'php' => true,
+        );
+
+        $this->config = array_merge($defaultConfig, $config);
+    }
+
+    /**
      * @param array $manifest composer.json file manifest
      *
      * @return string[]
@@ -21,6 +38,18 @@ final class Linter
                 if (array_key_exists($linksSection, $manifest) && !$this->packagesAreSorted($manifest[$linksSection])) {
                     array_push($errors, 'Links under '.$linksSection.' section are not sorted.');
                 }
+            }
+        }
+
+        if (true === $this->config['php'] &&
+            (array_key_exists('require-dev', $manifest) || array_key_exists('require', $manifest))) {
+            $isOnRequireDev = array_key_exists('require-dev', $manifest) && array_key_exists('php', $manifest['require-dev']);
+            $isOnRequire = array_key_exists('require', $manifest) && array_key_exists('php', $manifest['require']);
+
+            if ($isOnRequireDev) {
+                array_push($errors, 'PHP requirement should be in the require section, not in the require-dev section.');
+            } elseif (!$isOnRequire) {
+                array_push($errors, 'You must specifiy the PHP requirement.');
             }
         }
 

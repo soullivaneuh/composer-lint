@@ -37,7 +37,8 @@ final class LintPlugin implements PluginInterface, EventSubscriberInterface
     {
         $this->composer = $composer;
         $this->io = $io;
-        $this->linter = new Linter();
+        $config = $this->composer->getConfig()->get('sllh-composer-lint');
+        $this->linter = new Linter($config ?: array());
     }
 
     /**

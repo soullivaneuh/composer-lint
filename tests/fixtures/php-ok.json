@@ -1,0 +1,9 @@
+{
+    "require": {
+        "php": "^5.3",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0"
+    },
+    "require-dev": {
+        "foo/bar": "*"
+    }
+}
