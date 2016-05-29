@@ -12,7 +12,6 @@ use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Plugin\PluginManager;
 use SLLH\ComposerLint\LintPlugin;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 
 /**
@@ -48,12 +47,35 @@ final class LintPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->addComposerPlugin(new LintPlugin());
 
-        $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'validate', new ArrayInput(array()), new NullOutput());
-        $ret = $this->composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent);
+        $input = $this->getMock('Symfony\Component\Console\Input\InputInterface');
+        $input->expects($this->once())->method('getArgument')->with('file')
+            ->willReturn(__DIR__.'/fixtures/composer.json');
 
-        $this->assertSame(1, $ret);
+        $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'validate', $input, new NullOutput());
+
+        $this->assertSame(1, $this->composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent));
         $this->assertSame(<<<'EOF'
-This plugin is over development. Please do not use it for the moment.
+Links under require section are not sorted.
+Links under require-dev section are not sorted.
+
+EOF
+            , $this->io->getOutput());
+    }
+
+    /**
+     * The plugin should not be executed at all.
+     */
+    public function testDummyCommand()
+    {
+        $this->addComposerPlugin(new LintPlugin());
+
+        $input = $this->getMock('Symfony\Component\Console\Input\InputInterface');
+        $input->expects($this->never())->method('getArgument')->with('file');
+
+        $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'dummy', $input, new NullOutput());
+
+        $this->assertSame(0, $this->composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent));
+        $this->assertSame(<<<'EOF'
 
 EOF
             , $this->io->getOutput());

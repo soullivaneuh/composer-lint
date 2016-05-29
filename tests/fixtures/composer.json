@@ -1,0 +1,16 @@
+{
+    "name": "foo/bar",
+    "description": "Fake package. LULZ.",
+    "license": "MIT",
+    "require": {
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0",
+        "aztech/layers": "0.1.*"
+    },
+    "require-dev": {
+        "sllh/php-cs-fixer-styleci-bridge": "^2.0",
+        "aztech/layers": "0.1.*"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
