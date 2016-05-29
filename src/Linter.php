@@ -19,6 +19,7 @@ final class Linter
     {
         $defaultConfig = array(
             'php' => true,
+            'minimum-stability' => true,
         );
 
         $this->config = array_merge($defaultConfig, $config);
@@ -51,6 +52,11 @@ final class Linter
             } elseif (!$isOnRequire) {
                 array_push($errors, 'You must specifiy the PHP requirement.');
             }
+        }
+
+        if (true === $this->config['minimum-stability'] && array_key_exists('minimum-stability', $manifest) &&
+            array_key_exists('type', $manifest) && 'project' !== $manifest['type']) {
+            array_push($errors, 'The minimum-stability should be only used for project packages.');
         }
 
         return $errors;

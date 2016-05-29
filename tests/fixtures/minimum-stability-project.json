@@ -1,0 +1,7 @@
+{
+    "type": "project",
+    "require": {
+        "php": "^5.3"
+    },
+    "minimum-stability": "dev"
+}
