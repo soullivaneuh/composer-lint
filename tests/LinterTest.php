@@ -43,6 +43,10 @@ final class LinterTest extends \PHPUnit_Framework_TestCase
             array(__DIR__.'/fixtures/php-ko.json', 1),
             array(__DIR__.'/fixtures/php-on-dev.json', 1),
             array(__DIR__.'/fixtures/php-ko-disabled.json'),
+            array(__DIR__.'/fixtures/minimum-stability-ok.json'),
+            array(__DIR__.'/fixtures/minimum-stability-ko.json', 1),
+            array(__DIR__.'/fixtures/minimum-stability-project.json'),
+            array(__DIR__.'/fixtures/minimum-stability-ko-disabled.json'),
         );
     }
 }

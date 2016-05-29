@@ -1,0 +1,12 @@
+{
+    "type": "library",
+    "require": {
+        "php": "^5.3"
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "sllh-composer-lint": {
+            "minimum-stability": false
+        }
+    }
+}
