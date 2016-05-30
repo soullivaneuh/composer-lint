@@ -39,3 +39,27 @@ composer require sllh/composer-lint
 That's it! Composer will enable automatically the plugin as soon it's installed.
 
 Just run `composer validate` command to see the plugin working.
+
+## Configuration
+
+You can configure the plugin via the [`COMPOSER_HOME/config.json`](https://getcomposer.org/doc/03-cli.md#composer-home) file. Here is the default one:
+
+```json
+{
+    "config": {
+        "sllh-composer-lint": {
+            "php": true,
+            "type": true,
+            "minimum-stability": true,
+            "version-constraints": true
+        },
+        "sort-packages": false
+    }
+}
+```
+
+* `php`: Checks if the PHP requirement is set on the `require` section.
+* `type`: Check if package `type` is defined.
+* `minimum-stability`: Checks if `minimum-stability` is set. It raises an error if it is, except for `project` packages.
+* `version-constraints`: Checks if version constraint formats are valid (e.g. `~2.0` should be `^2.0`).
+* `sort-packages`: Checks if packages are sorted on each section. This option is outside `sllh-composer-lint` because it's a composer native one.
