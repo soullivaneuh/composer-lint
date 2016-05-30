@@ -21,6 +21,7 @@ final class Linter
             'php' => true,
             'type' => true,
             'minimum-stability' => true,
+            'version-constraints' => true,
         );
 
         $this->config = array_merge($defaultConfig, $config);
@@ -34,9 +35,10 @@ final class Linter
     public function validate($manifest)
     {
         $errors = array();
+        $linksSections = array('require', 'require-dev', 'conflict', 'replace', 'provide', 'suggest');
 
         if (isset($manifest['config']['sort-packages']) && $manifest['config']['sort-packages']) {
-            foreach (array('require', 'require-dev', 'conflict', 'replace', 'provide', 'suggest') as $linksSection) {
+            foreach ($linksSections as $linksSection) {
                 if (array_key_exists($linksSection, $manifest) && !$this->packagesAreSorted($manifest[$linksSection])) {
                     array_push($errors, 'Links under '.$linksSection.' section are not sorted.');
                 }
@@ -64,6 +66,14 @@ final class Linter
             array_push($errors, 'The minimum-stability should be only used for project packages.');
         }
 
+        if (true === $this->config['version-constraints']) {
+            foreach ($linksSections as $linksSection) {
+                if (array_key_exists($linksSection, $manifest)) {
+                    $errors = array_merge($errors, $this->validateVersionConstraints($manifest[$linksSection]));
+                }
+            }
+        }
+
         return $errors;
     }
 
@@ -88,5 +98,47 @@ final class Linter
         );
 
         return $sortedNames === $names;
+    }
+
+    /**
+     * @param string[] $packages
+     *
+     * @return array
+     */
+    private function validateVersionConstraints(array $packages)
+    {
+        $errors = array();
+
+        foreach ($packages as $name => $constraint) {
+            // Checks if OR format is correct
+            // From Composer\Semver\VersionParser::parseConstraints
+            $orConstraints = preg_split('{\s*\|\|?\s*}', trim($constraint));
+            foreach ($orConstraints as &$subConstraint) {
+                // Checks ~ usage
+                $subConstraint = str_replace('~', '^', $subConstraint);
+
+                // Checks for usage like ^2.1,>=2.1.5. Should be ^2.1.5.
+                // From Composer\Semver\VersionParser::parseConstraints
+                $andConstraints = preg_split('{(?<!^|as|[=>< ,]) *(?<!-)[, ](?!-) *(?!,|as|$)}', $subConstraint);
+                if (2 === count($andConstraints) && '>=' === substr($andConstraints[1], 0, 2)) {
+                    $andConstraints[1] = '^'.substr($andConstraints[1], 2);
+                    array_shift($andConstraints);
+                    $subConstraint = implode(',', $andConstraints);
+                }
+            }
+
+            $expectedConstraint = implode(' || ', $orConstraints);
+
+            if ($expectedConstraint !== $constraint) {
+                array_push($errors, sprintf(
+                    "Requirement format of '%s:%s' is not valid. Should be '%s'.",
+                    $name,
+                    $constraint,
+                    $expectedConstraint
+                ));
+            }
+        }
+
+        return $errors;
     }
 }
