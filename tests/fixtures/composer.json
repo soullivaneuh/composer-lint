@@ -7,7 +7,7 @@
         "aztech/layers": "0.1.*"
     },
     "require-dev": {
-        "sllh/php-cs-fixer-styleci-bridge": "^2.0",
+        "sllh/php-cs-fixer-styleci-bridge": "~2.0",
         "aztech/layers": "0.1.*"
     },
     "config": {

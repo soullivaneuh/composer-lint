@@ -65,6 +65,7 @@ Links under require section are not sorted.
 Links under require-dev section are not sorted.
 You must specifiy the PHP requirement.
 The package type is not specified.
+Requirement format of 'sllh/php-cs-fixer-styleci-bridge:~2.0' is not valid. Should be '^2.0'.
 
 EOF
             , $this->io->getOutput());
@@ -77,6 +78,7 @@ EOF
                 'sllh-composer-lint' => array(
                     'php' => false,
                     'type' => false,
+                    'version-constraints' => false,
                 ),
             ),
         ));

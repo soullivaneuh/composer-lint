@@ -50,6 +50,9 @@ final class LinterTest extends \PHPUnit_Framework_TestCase
             array(__DIR__.'/fixtures/type-ok.json'),
             array(__DIR__.'/fixtures/type-ko.json', 1),
             array(__DIR__.'/fixtures/type-ko-disabled.json'),
+            array(__DIR__.'/fixtures/version-constraints-ok.json'),
+            array(__DIR__.'/fixtures/version-constraints-ko.json', 5),
+            array(__DIR__.'/fixtures/version-constraints-ko-disabled.json'),
         );
     }
 }
