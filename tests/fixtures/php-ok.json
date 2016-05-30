@@ -1,4 +1,5 @@
 {
+    "type": "library",
     "require": {
         "php": "^5.3",
         "sllh/php-cs-fixer-styleci-bridge": "^2.0"

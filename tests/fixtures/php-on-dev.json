@@ -1,4 +1,5 @@
 {
+    "type": "library",
     "require": {
         "php": "^7.0"
     },
