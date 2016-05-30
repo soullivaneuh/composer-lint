@@ -19,6 +19,7 @@ final class Linter
     {
         $defaultConfig = array(
             'php' => true,
+            'type' => true,
             'minimum-stability' => true,
         );
 
@@ -52,6 +53,10 @@ final class Linter
             } elseif (!$isOnRequire) {
                 array_push($errors, 'You must specifiy the PHP requirement.');
             }
+        }
+
+        if (true === $this->config['type'] && !array_key_exists('type', $manifest)) {
+            array_push($errors, 'The package type is not specified.');
         }
 
         if (true === $this->config['minimum-stability'] && array_key_exists('minimum-stability', $manifest) &&

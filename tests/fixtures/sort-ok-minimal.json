@@ -1,4 +1,5 @@
 {
+    "type": "library",
     "require": {
         "php": "^5.3",
         "ext-mbstring": "^1.0",

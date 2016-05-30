@@ -47,6 +47,9 @@ final class LinterTest extends \PHPUnit_Framework_TestCase
             array(__DIR__.'/fixtures/minimum-stability-ko.json', 1),
             array(__DIR__.'/fixtures/minimum-stability-project.json'),
             array(__DIR__.'/fixtures/minimum-stability-ko-disabled.json'),
+            array(__DIR__.'/fixtures/type-ok.json'),
+            array(__DIR__.'/fixtures/type-ko.json', 1),
+            array(__DIR__.'/fixtures/type-ko-disabled.json'),
         );
     }
 }

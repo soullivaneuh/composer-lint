@@ -64,6 +64,7 @@ final class LintPluginTest extends \PHPUnit_Framework_TestCase
 Links under require section are not sorted.
 Links under require-dev section are not sorted.
 You must specifiy the PHP requirement.
+The package type is not specified.
 
 EOF
             , $this->io->getOutput());
@@ -75,6 +76,7 @@ EOF
             'config' => array(
                 'sllh-composer-lint' => array(
                     'php' => false,
+                    'type' => false,
                 ),
             ),
         ));

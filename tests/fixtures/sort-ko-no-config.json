@@ -1,4 +1,5 @@
 {
+    "type": "library",
     "require": {
         "aztech/layers": "0.1.*",
         "sllh/php-cs-fixer-styleci-bridge": "^2.0",

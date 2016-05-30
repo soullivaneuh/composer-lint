@@ -1,0 +1,7 @@
+{
+    "config": {
+        "sllh-composer-lint": {
+            "type": false
+        }
+    }
+}
