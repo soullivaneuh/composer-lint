@@ -32,7 +32,7 @@ final class LintPluginTest extends \PHPUnit_Framework_TestCase
     private $config;
 
     /**
-     * @var Composer|\PHPUnit_Framework_MockObject_MockObject
+     * @var Composer
      */
     private $composer;
 
