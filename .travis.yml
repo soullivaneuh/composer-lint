@@ -33,7 +33,6 @@ matrix:
       dist: trusty
   allow_failures:
     - php: nightly
-    - env: COMPOSER_VERSION=1.1.*
     - env: COMPOSER_VERSION=dev-master
 
 sudo: false
