@@ -81,7 +81,7 @@ final class Linter
     {
         $names = array_keys($packages);
 
-        $hasPHP = in_array('php', $names);
+        $hasPHP = in_array('php', $names, true);
         $extNames = array_filter($names, function ($name) {
             return 'ext-' === substr($name, 0, 4) && !strstr($name, '/');
         });
