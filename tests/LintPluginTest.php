@@ -2,6 +2,7 @@
 
 namespace SLLH\ComposerLint\Tests;
 
+use Composer\Command\ValidateCommand;
 use Composer\Composer;
 use Composer\Config;
 use Composer\EventDispatcher\EventDispatcher;
@@ -12,6 +13,7 @@ use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Plugin\PluginManager;
 use SLLH\ComposerLint\LintPlugin;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 
 /**
@@ -35,6 +37,11 @@ final class LintPluginTest extends \PHPUnit_Framework_TestCase
     private $composer;
 
     /**
+     * @var ValidateCommand
+     */
+    private $validateCommand;
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp()
@@ -47,15 +54,17 @@ final class LintPluginTest extends \PHPUnit_Framework_TestCase
         $this->composer->setEventDispatcher(new EventDispatcher($this->composer, $this->io));
         $this->composer->setConfig($this->config);
         $this->composer->setPackage(new RootPackage('root/root', '1.0.0', '1.0.0'));
+
+        $this->validateCommand = new ValidateCommand();
     }
 
     public function testValidateCommand()
     {
         $this->addComposerPlugin(new LintPlugin());
 
-        $input = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-        $input->expects($this->once())->method('getArgument')->with('file')
-            ->willReturn(__DIR__.'/fixtures/composer.json');
+        $input = new ArrayInput(array(
+            'file' => __DIR__.'/fixtures/composer.json',
+        ), $this->validateCommand->getDefinition());
 
         $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'validate', $input, new NullOutput());
 
@@ -85,9 +94,9 @@ EOF
 
         $this->addComposerPlugin(new LintPlugin());
 
-        $input = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-        $input->expects($this->once())->method('getArgument')->with('file')
-            ->willReturn(__DIR__.'/fixtures/composer.json');
+        $input = new ArrayInput(array(
+            'file' => __DIR__.'/fixtures/composer.json',
+        ), $this->validateCommand->getDefinition());
 
         $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'validate', $input, new NullOutput());
 
@@ -107,8 +116,7 @@ EOF
     {
         $this->addComposerPlugin(new LintPlugin());
 
-        $input = $this->getMock('Symfony\Component\Console\Input\InputInterface');
-        $input->expects($this->never())->method('getArgument')->with('file');
+        $input = new ArrayInput(array(), $this->validateCommand->getDefinition());
 
         $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'dummy', $input, new NullOutput());
 
