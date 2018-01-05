@@ -6,3 +6,6 @@ enabled:
   - long_array_syntax
   - php_unit_construct
   - php_unit_strict
+
+disabled:
+  - psr0
