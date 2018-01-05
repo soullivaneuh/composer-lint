@@ -4,6 +4,7 @@ namespace SLLH\ComposerLint;
 
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\Factory;
 use Composer\IO\IOInterface;
 use Composer\Json\JsonFile;
 use Composer\Plugin\CommandEvent;
@@ -64,7 +65,8 @@ final class LintPlugin implements PluginInterface, EventSubscriberInterface
             return true;
         }
 
-        $json = new JsonFile($event->getInput()->getArgument('file'));
+        $file = $event->getInput()->getArgument('file') ?: Factory::getComposerFile();
+        $json = new JsonFile($file);
         $manifest = $json->read();
 
         $errors = $this->linter->validate($manifest);

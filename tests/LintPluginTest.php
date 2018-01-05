@@ -80,6 +80,33 @@ EOF
             , $this->io->getOutput());
     }
 
+    public function testValidateWithComposerEnvVariable()
+    {
+        if (version_compare(Composer::VERSION, '1.6.0', '<')) {
+            $this->markTestSkipped('Need composer >=1.6');
+        }
+
+        putenv('COMPOSER='.__DIR__.'/fixtures/composer.json');
+
+        $this->addComposerPlugin(new LintPlugin());
+
+        $input = new ArrayInput(array(), $this->validateCommand->getDefinition());
+
+        $commandEvent = new CommandEvent(PluginEvents::COMMAND, 'validate', $input, new NullOutput());
+
+        $this->assertSame(1, $this->composer->getEventDispatcher()->dispatch($commandEvent->getName(), $commandEvent));
+        $this->assertSame(<<<'EOF'
+Links under require section are not sorted.
+Links under require-dev section are not sorted.
+You must specifiy the PHP requirement.
+The package type is not specified.
+Requirement format of 'sllh/php-cs-fixer-styleci-bridge:~2.0' is not valid. Should be '^2.0'.
+
+EOF
+            , $this->io->getOutput());
+        putenv('COMPOSER'); // Be sure to be removed for the other tests.
+    }
+
     public function testValidateWithConfigCommand()
     {
         $this->config->merge(array(
