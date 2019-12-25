@@ -63,7 +63,7 @@ final class Linter
 
         if (true === $this->config['minimum-stability'] && array_key_exists('minimum-stability', $manifest) &&
             array_key_exists('type', $manifest) && 'project' !== $manifest['type']) {
-            array_push($errors, 'The minimum-stability should be only used for project packages.');
+            array_push($errors, 'The minimum-stability should be only used for packages of type "project".');
         }
 
         if (true === $this->config['version-constraints']) {
