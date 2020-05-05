@@ -12,9 +12,6 @@ final class Linter
      */
     private $config;
 
-    /**
-     * @param array $config
-     */
     public function __construct(array $config)
     {
         $defaultConfig = array(
@@ -39,16 +36,16 @@ final class Linter
 
         if (isset($manifest['config']['sort-packages']) && $manifest['config']['sort-packages']) {
             foreach ($linksSections as $linksSection) {
-                if (array_key_exists($linksSection, $manifest) && !$this->packagesAreSorted($manifest[$linksSection])) {
+                if (\array_key_exists($linksSection, $manifest) && !$this->packagesAreSorted($manifest[$linksSection])) {
                     array_push($errors, 'Links under '.$linksSection.' section are not sorted.');
                 }
             }
         }
 
         if (true === $this->config['php'] &&
-            (array_key_exists('require-dev', $manifest) || array_key_exists('require', $manifest))) {
-            $isOnRequireDev = array_key_exists('require-dev', $manifest) && array_key_exists('php', $manifest['require-dev']);
-            $isOnRequire = array_key_exists('require', $manifest) && array_key_exists('php', $manifest['require']);
+            (\array_key_exists('require-dev', $manifest) || \array_key_exists('require', $manifest))) {
+            $isOnRequireDev = \array_key_exists('require-dev', $manifest) && \array_key_exists('php', $manifest['require-dev']);
+            $isOnRequire = \array_key_exists('require', $manifest) && \array_key_exists('php', $manifest['require']);
 
             if ($isOnRequireDev) {
                 array_push($errors, 'PHP requirement should be in the require section, not in the require-dev section.');
@@ -57,18 +54,18 @@ final class Linter
             }
         }
 
-        if (true === $this->config['type'] && !array_key_exists('type', $manifest)) {
+        if (true === $this->config['type'] && !\array_key_exists('type', $manifest)) {
             array_push($errors, 'The package type is not specified.');
         }
 
-        if (true === $this->config['minimum-stability'] && array_key_exists('minimum-stability', $manifest) &&
-            array_key_exists('type', $manifest) && 'project' !== $manifest['type']) {
+        if (true === $this->config['minimum-stability'] && \array_key_exists('minimum-stability', $manifest) &&
+            \array_key_exists('type', $manifest) && 'project' !== $manifest['type']) {
             array_push($errors, 'The minimum-stability should be only used for packages of type "project".');
         }
 
         if (true === $this->config['version-constraints']) {
             foreach ($linksSections as $linksSection) {
-                if (array_key_exists($linksSection, $manifest)) {
+                if (\array_key_exists($linksSection, $manifest)) {
                     $errors = array_merge($errors, $this->validateVersionConstraints($manifest[$linksSection]));
                 }
             }
@@ -81,7 +78,7 @@ final class Linter
     {
         $names = array_keys($packages);
 
-        $hasPHP = in_array('php', $names, true);
+        $hasPHP = \in_array('php', $names, true);
         $extNames = array_filter($names, function ($name) {
             return 'ext-' === substr($name, 0, 4) && !strstr($name, '/');
         });
@@ -120,7 +117,7 @@ final class Linter
                 // Checks for usage like ^2.1,>=2.1.5. Should be ^2.1.5.
                 // From Composer\Semver\VersionParser::parseConstraints
                 $andConstraints = preg_split('{(?<!^|as|[=>< ,]) *(?<!-)[, ](?!-) *(?!,|as|$)}', $subConstraint);
-                if (2 === count($andConstraints) && '>=' === substr($andConstraints[1], 0, 2)) {
+                if (2 === \count($andConstraints) && '>=' === substr($andConstraints[1], 0, 2)) {
                     $andConstraints[1] = '^'.substr($andConstraints[1], 2);
                     array_shift($andConstraints);
                     $subConstraint = implode(',', $andConstraints);
