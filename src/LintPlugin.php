@@ -55,8 +55,6 @@ final class LintPlugin implements PluginInterface, EventSubscriberInterface
     }
 
     /**
-     * @param CommandEvent $event
-     *
      * @return bool true if no violation, false otherwise
      */
     public function command(CommandEvent $event)
