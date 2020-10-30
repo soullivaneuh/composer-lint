@@ -12,6 +12,8 @@
          syntaxCheck="false">
     <php>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
+        <!-- PHPUnit version 5 because we still allow PHP 5.6 -->
+        <env name="SYMFONY_PHPUNIT_VERSION" value="5" />
     </php>
 
     <testsuites>
@@ -25,4 +27,8 @@
             <directory>./src</directory>
         </whitelist>
     </filter>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+    </listeners>
 </phpunit>

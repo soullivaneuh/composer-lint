@@ -45,13 +45,14 @@ cache:
 
 before_install:
   - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - composer global require 'phpunit/phpunit:<6' satooshi/php-coveralls:@stable --no-update
+  - composer global require php-coveralls/php-coveralls:@stable --no-update
   - if [ "$COMPOSER_VERSION" != "" ]; then composer require "composer/composer:${COMPOSER_VERSION}" --no-update; fi;
 
 install:
   - composer global update --prefer-dist --no-interaction
   - composer update --prefer-dist --no-interaction $COMPOSER_FLAGS
+  - vendor/bin/simple-phpunit install
 
-script: phpunit -c phpunit.xml.dist --coverage-clover build/logs/clover.xml
+script: vendor/bin/simple-phpunit -c phpunit.xml.dist --coverage-clover build/logs/clover.xml
 
 after_script: coveralls -v

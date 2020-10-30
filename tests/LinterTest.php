@@ -3,12 +3,13 @@
 namespace SLLH\ComposerLint\Tests;
 
 use Composer\Json\JsonFile;
+use PHPUnit\Framework\TestCase;
 use SLLH\ComposerLint\Linter;
 
 /**
  * @author Sullivan Senechal <soullivaneuh@gmail.com>
  */
-final class LinterTest extends \PHPUnit_Framework_TestCase
+final class LinterTest extends TestCase
 {
     /**
      * @dataProvider getLintData
