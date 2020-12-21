@@ -12,6 +12,7 @@ use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Plugin\PluginManager;
+use PHPUnit\Framework\TestCase;
 use SLLH\ComposerLint\LintPlugin;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -19,7 +20,7 @@ use Symfony\Component\Console\Output\NullOutput;
 /**
  * @author Sullivan Senechal <soullivaneuh@gmail.com>
  */
-final class LintPluginTest extends \PHPUnit_Framework_TestCase
+final class LintPluginTest extends TestCase
 {
     /**
      * @var BufferIO
@@ -44,7 +45,7 @@ final class LintPluginTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->io = new BufferIO();
         $this->composer = new Composer();
