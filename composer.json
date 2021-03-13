@@ -33,9 +33,6 @@
         "optimize-autoloader": true
     },
     "extra": {
-        "class": "SLLH\\ComposerLint\\LintPlugin",
-        "branch-alias": {
-            "dev-master": "1.x-dev"
-        }
+        "class": "SLLH\\ComposerLint\\LintPlugin"
     }
 }
