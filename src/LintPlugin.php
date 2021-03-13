@@ -16,20 +16,11 @@ use Composer\Plugin\PluginInterface;
  */
 final class LintPlugin implements PluginInterface, EventSubscriberInterface
 {
-    /**
-     * @var Composer
-     */
-    private $composer;
+    private Composer $composer;
 
-    /**
-     * @var IOInterface
-     */
-    private $io;
+    private IOInterface $io;
 
-    /**
-     * @var Linter
-     */
-    private $linter;
+    private Linter $linter;
 
     /**
      * {@inheritdoc}

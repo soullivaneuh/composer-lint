@@ -11,12 +11,12 @@
         }
     ],
     "require": {
-        "php": "^5.3 || ^7.0",
-        "composer-plugin-api": "^1.0"
+        "php": "^7.4 || ^8.0",
+        "composer-plugin-api": "^2.0"
     },
     "require-dev": {
-        "composer/composer": "^1.0",
-        "symfony/phpunit-bridge": "^2.7.4 || ^3.0"
+        "composer/composer": "^2.0",
+        "symfony/phpunit-bridge": "^5.2"
     },
     "autoload": {
         "psr-4": {

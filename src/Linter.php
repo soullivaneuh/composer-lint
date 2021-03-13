@@ -37,7 +37,7 @@ final class Linter
         if (isset($manifest['config']['sort-packages']) && $manifest['config']['sort-packages']) {
             foreach ($linksSections as $linksSection) {
                 if (\array_key_exists($linksSection, $manifest) && !$this->packagesAreSorted($manifest[$linksSection])) {
-                    array_push($errors, 'Links under '.$linksSection.' section are not sorted.');
+                    $errors[] = 'Links under '.$linksSection.' section are not sorted.';
                 }
             }
         }
@@ -48,19 +48,19 @@ final class Linter
             $isOnRequire = \array_key_exists('require', $manifest) && \array_key_exists('php', $manifest['require']);
 
             if ($isOnRequireDev) {
-                array_push($errors, 'PHP requirement should be in the require section, not in the require-dev section.');
+                $errors[] = 'PHP requirement should be in the require section, not in the require-dev section.';
             } elseif (!$isOnRequire) {
-                array_push($errors, 'You must specifiy the PHP requirement.');
+                $errors[] = 'You must specifiy the PHP requirement.';
             }
         }
 
         if (true === $this->config['type'] && !\array_key_exists('type', $manifest)) {
-            array_push($errors, 'The package type is not specified.');
+            $errors[] = 'The package type is not specified.';
         }
 
         if (true === $this->config['minimum-stability'] && \array_key_exists('minimum-stability', $manifest) &&
             \array_key_exists('type', $manifest) && 'project' !== $manifest['type']) {
-            array_push($errors, 'The minimum-stability should be only used for packages of type "project".');
+            $errors[] = 'The minimum-stability should be only used for packages of type "project".';
         }
 
         if (true === $this->config['version-constraints']) {
@@ -127,12 +127,12 @@ final class Linter
             $expectedConstraint = implode(' || ', $orConstraints);
 
             if ($expectedConstraint !== $constraint) {
-                array_push($errors, sprintf(
+                $errors[] = sprintf(
                     "Requirement format of '%s:%s' is not valid. Should be '%s'.",
                     $name,
                     $constraint,
                     $expectedConstraint
-                ));
+                );
             }
         }
 
