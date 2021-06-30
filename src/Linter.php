@@ -85,7 +85,7 @@ final class Linter
     private function lockNoMirror(array $lockData): bool
     {
         $flag = true;
-        foreach (['packages', 'packages-dev'] as $key) {
+        foreach (array('packages', 'packages-dev') as $key) {
             if (!isset($lockData[$key])) {
                 continue;
             }
@@ -96,6 +96,7 @@ final class Linter
                 }
             }
         }
+
         return $flag;
     }
 

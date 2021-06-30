@@ -15,7 +15,7 @@ final class LinterTest extends TestCase
      * @dataProvider getLintData
      *
      * @param string $file
-     * @param int $expectedErrorsCount
+     * @param int    $expectedErrorsCount
      */
     public function testLint($file, $expectedErrorsCount = 0)
     {
@@ -35,32 +35,31 @@ final class LinterTest extends TestCase
     public function getLintData()
     {
         return array(
-            array(__DIR__ . '/fixtures/sort-ok.json'),
-            array(__DIR__ . '/fixtures/sort-ok-minimal.json'),
-            array(__DIR__ . '/fixtures/sort-ko.json', 6),
-            array(__DIR__ . '/fixtures/sort-ko-disabled.json'),
-            array(__DIR__ . '/fixtures/sort-ko-no-config.json'),
-            array(__DIR__ . '/fixtures/php-ok.json'),
-            array(__DIR__ . '/fixtures/php-ko.json', 1),
-            array(__DIR__ . '/fixtures/php-on-dev.json', 1),
-            array(__DIR__ . '/fixtures/php-ko-disabled.json'),
-            array(__DIR__ . '/fixtures/minimum-stability-ok.json'),
-            array(__DIR__ . '/fixtures/minimum-stability-ko.json', 1),
-            array(__DIR__ . '/fixtures/minimum-stability-project.json'),
-            array(__DIR__ . '/fixtures/minimum-stability-ko-disabled.json'),
-            array(__DIR__ . '/fixtures/type-ok.json'),
-            array(__DIR__ . '/fixtures/type-ko.json', 1),
-            array(__DIR__ . '/fixtures/type-ko-disabled.json'),
-            array(__DIR__ . '/fixtures/version-constraints-ok.json'),
-            array(__DIR__ . '/fixtures/version-constraints-ko.json', 5),
-            array(__DIR__ . '/fixtures/version-constraints-ko-disabled.json'),
+            array(__DIR__.'/fixtures/sort-ok.json'),
+            array(__DIR__.'/fixtures/sort-ok-minimal.json'),
+            array(__DIR__.'/fixtures/sort-ko.json', 6),
+            array(__DIR__.'/fixtures/sort-ko-disabled.json'),
+            array(__DIR__.'/fixtures/sort-ko-no-config.json'),
+            array(__DIR__.'/fixtures/php-ok.json'),
+            array(__DIR__.'/fixtures/php-ko.json', 1),
+            array(__DIR__.'/fixtures/php-on-dev.json', 1),
+            array(__DIR__.'/fixtures/php-ko-disabled.json'),
+            array(__DIR__.'/fixtures/minimum-stability-ok.json'),
+            array(__DIR__.'/fixtures/minimum-stability-ko.json', 1),
+            array(__DIR__.'/fixtures/minimum-stability-project.json'),
+            array(__DIR__.'/fixtures/minimum-stability-ko-disabled.json'),
+            array(__DIR__.'/fixtures/type-ok.json'),
+            array(__DIR__.'/fixtures/type-ko.json', 1),
+            array(__DIR__.'/fixtures/type-ko-disabled.json'),
+            array(__DIR__.'/fixtures/version-constraints-ok.json'),
+            array(__DIR__.'/fixtures/version-constraints-ko.json', 5),
+            array(__DIR__.'/fixtures/version-constraints-ko-disabled.json'),
         );
     }
 
     /**
      * @dataProvider getLintLockData
      *
-     * @param string $file
      * @param int $expectedErrorsCount
      */
     public function testLintLock(string $file, $expectedErrorsCount = 0)
@@ -82,17 +81,17 @@ final class LinterTest extends TestCase
     public function getLintLockData(): array
     {
         return array(
-            array(__DIR__ . '/fixtures/lock-no-mirror-ko.lock', 1),
-            array(__DIR__ . '/fixtures/lock-no-mirror-ok.lock'),
+            array(__DIR__.'/fixtures/lock-no-mirror-ko.lock', 1),
+            array(__DIR__.'/fixtures/lock-no-mirror-ok.lock'),
         );
     }
 
     public function testDefaultConfig()
     {
-        $json = new JsonFile(__DIR__ . '/fixtures/php-ok.json');
+        $json = new JsonFile(__DIR__.'/fixtures/php-ok.json');
         $manifest = $json->read();
 
-        $json = new JsonFile(__DIR__ . '/fixtures/lock-no-mirror-ko.lock');
+        $json = new JsonFile(__DIR__.'/fixtures/lock-no-mirror-ko.lock');
         $lockData = $json->read();
 
         $linter = new Linter(array());
