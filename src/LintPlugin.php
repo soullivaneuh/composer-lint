@@ -71,8 +71,10 @@ final class LintPlugin implements PluginInterface, EventSubscriberInterface
         $file = $event->getInput()->getArgument('file') ?: Factory::getComposerFile();
         $json = new JsonFile($file);
         $manifest = $json->read();
+        $locker = $this->composer->getLocker();
+        $lockData = $locker && $locker->isLocked() ? $locker->getLockData() : array();
 
-        $errors = $this->linter->validate($manifest);
+        $errors = $this->linter->validate($manifest, $lockData);
 
         foreach ($errors as $error) {
             $this->io->writeError(sprintf('<error>%s</error>', $error));

@@ -56,4 +56,47 @@ final class LinterTest extends TestCase
             array(__DIR__.'/fixtures/version-constraints-ko-disabled.json'),
         );
     }
+
+    /**
+     * @dataProvider getLintLockData
+     *
+     * @param int $expectedErrorsCount
+     */
+    public function testLintLock(string $file, $expectedErrorsCount = 0)
+    {
+        $json = new JsonFile($file);
+        $lockData = $json->read();
+        $linter = new Linter(array(
+            'php' => false,
+            'type' => false,
+            'minimum-stability' => false,
+            'version-constraints' => false,
+            'lock-no-mirror' => true,
+        ));
+
+        $errors = $linter->validate(array(), $lockData);
+        $this->assertCount($expectedErrorsCount, $errors);
+    }
+
+    public function getLintLockData(): array
+    {
+        return array(
+            array(__DIR__.'/fixtures/lock-no-mirror-ko.lock', 1),
+            array(__DIR__.'/fixtures/lock-no-mirror-ok.lock'),
+        );
+    }
+
+    public function testDefaultConfig()
+    {
+        $json = new JsonFile(__DIR__.'/fixtures/php-ok.json');
+        $manifest = $json->read();
+
+        $json = new JsonFile(__DIR__.'/fixtures/lock-no-mirror-ko.lock');
+        $lockData = $json->read();
+
+        $linter = new Linter(array());
+
+        $errors = $linter->validate($manifest, $lockData);
+        $this->assertCount(0, $errors);
+    }
 }
