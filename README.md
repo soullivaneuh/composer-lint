@@ -42,7 +42,7 @@ Just run `composer validate` command to see the plugin working.
 
 ## Configuration
 
-You can configure the plugin via the [`COMPOSER_HOME/config.json`](https://getcomposer.org/doc/03-cli.md#composer-home) file. Here is the default one:
+You can configure the plugin via [`COMPOSER_HOME/config.json`](https://getcomposer.org/doc/03-cli.md#composer-home) or `./composer.json`(for installed locally). Here is the default one:
 
 ```json
 {
