@@ -51,7 +51,8 @@ You can configure the plugin via the [`COMPOSER_HOME/config.json`](https://getco
             "php": true,
             "type": true,
             "minimum-stability": true,
-            "version-constraints": true
+            "version-constraints": true,
+            "lock-no-mirror": false
         },
         "sort-packages": false
     }
@@ -62,4 +63,5 @@ You can configure the plugin via the [`COMPOSER_HOME/config.json`](https://getco
 * `type`: Check if package `type` is defined.
 * `minimum-stability`: Checks if `minimum-stability` is set. It raises an error if it is, except for `project` packages.
 * `version-constraints`: Checks if version constraint formats are valid (e.g. `~2.0` should be `^2.0`).
+* `lock-no-mirror`: Checks if the lock file have no mirror, because your mirror may slow down the download speed of developers in other regions.
 * `sort-packages`: Checks if packages are sorted on each section. This option is outside `sllh-composer-lint` because it's a composer native one.

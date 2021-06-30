@@ -19,6 +19,7 @@ final class Linter
             'type' => true,
             'minimum-stability' => true,
             'version-constraints' => true,
+            'lock-no-mirror' => false,
         );
 
         $this->config = array_merge($defaultConfig, $config);
@@ -26,10 +27,11 @@ final class Linter
 
     /**
      * @param array $manifest composer.json file manifest
+     * @param array $lockData composer.lock file data
      *
      * @return string[]
      */
-    public function validate($manifest)
+    public function validate($manifest, $lockData = array())
     {
         $errors = array();
         $linksSections = array('require', 'require-dev', 'conflict', 'replace', 'provide', 'suggest');
@@ -71,7 +73,30 @@ final class Linter
             }
         }
 
+        if (true === $this->config['lock-no-mirror'] && !empty($lockData)) {
+            if (!$this->lockNoMirror($lockData)) {
+                $errors[] = 'The lock file contains mirrors, which may slow down the download speed in other regions.';
+            }
+        }
+
         return $errors;
+    }
+
+    private function lockNoMirror(array $lockData): bool
+    {
+        $flag = true;
+        foreach (['packages', 'packages-dev'] as $key) {
+            if (!isset($lockData[$key])) {
+                continue;
+            }
+            foreach ($lockData[$key] as $package) {
+                if (isset($package['dist']['mirrors']) && !empty($package['dist']['mirrors'])) {
+                    $flag = false;
+                    break;
+                }
+            }
+        }
+        return $flag;
     }
 
     private function packagesAreSorted(array $packages)
